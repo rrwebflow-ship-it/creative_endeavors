@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+body {
+  background: #0F0F0F;
+  color: #F0EDE6;
+  overflow-x: hidden;
+}
