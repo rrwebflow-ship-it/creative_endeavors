@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { workouts } from '@/lib/workouts';
 import DayHeader from '@/components/DayHeader';
-import ExerciseCard from '@/components/ExerciseCard';
+import WorkoutTracker from '@/components/WorkoutTracker';
 
 export function generateStaticParams() {
   return workouts.map((w) => ({ day: String(w.day) }));
@@ -57,15 +57,7 @@ export default async function DayPage({ params }) {
               </p>
             </div>
           ) : (
-            workout.exercises.map((exercise, i) => (
-              <ExerciseCard
-                key={i}
-                name={exercise.name}
-                sets={exercise.sets}
-                reps={exercise.reps}
-                type={exercise.type}
-              />
-            ))
+            <WorkoutTracker exercises={workout.exercises} dayNumber={dayNum} />
           )}
         </div>
 

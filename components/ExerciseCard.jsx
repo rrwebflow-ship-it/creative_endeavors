@@ -1,13 +1,69 @@
-export default function ExerciseCard({ name, sets, reps, type }) {
+'use client';
+
+import RestTimer from './RestTimer';
+
+export default function ExerciseCard({ name, sets, reps, type, isComplete = false, isNext = false, onComplete }) {
   return (
-    <div className="flex items-center justify-between py-4 border-b border-[#2A2A2A] hover:bg-[#222220] transition-colors">
-      <div className="min-w-0">
-        <p className="font-[family-name:var(--font-body)] text-[#F0EDE6] text-base">{name}</p>
-        <p className="font-[family-name:var(--font-body)] text-[#888780] text-xs uppercase mt-0.5">{type}</p>
+    <div
+      className="py-4 border-b border-[#2A2A2A] transition-all duration-300"
+      style={{
+        opacity: isComplete ? 0.35 : 1,
+        borderLeft: isNext ? '3px solid #D1E231' : '3px solid transparent',
+        paddingLeft: isNext ? '14px' : undefined,
+      }}
+    >
+      <div className="flex items-center justify-between gap-3">
+        {/* Completion circle */}
+        <button
+          onClick={onComplete}
+          aria-label={isComplete ? 'Mark incomplete' : 'Mark complete'}
+          className="flex-shrink-0 flex items-center justify-center transition-all duration-200"
+          style={{
+            width: 22,
+            height: 22,
+            borderRadius: '50%',
+            border: isComplete ? 'none' : isNext ? '2px solid #D1E231' : '2px solid #2A2A2A',
+            background: isComplete ? '#D1E231' : 'transparent',
+            color: '#0F0F0F',
+            fontSize: 11,
+            fontWeight: 'bold',
+            cursor: 'pointer',
+          }}
+        >
+          {isComplete ? '✓' : ''}
+        </button>
+
+        {/* Name & type */}
+        <div className="min-w-0 flex-1">
+          <p
+            className="font-[family-name:var(--font-body)] text-base transition-colors duration-300"
+            style={{
+              color: isComplete ? '#888780' : isNext ? '#F0EDE6' : '#F0EDE6',
+              textDecoration: isComplete ? 'line-through' : 'none',
+            }}
+          >
+            {name}
+          </p>
+          <p className="font-[family-name:var(--font-body)] text-[#888780] text-xs uppercase mt-0.5">
+            {type}
+          </p>
+        </div>
+
+        {/* Sets badge */}
+        <div
+          className="flex-shrink-0 px-3 py-1.5 font-[family-name:var(--font-body)] text-sm whitespace-nowrap transition-all duration-300"
+          style={{
+            background: isNext ? '#1A1A0F' : '#252520',
+            border: isNext ? '1px solid #D1E231' : '1px solid #2A2A2A',
+            color: isNext ? '#D1E231' : '#F0EDE6',
+          }}
+        >
+          {sets} × {reps}
+        </div>
       </div>
-      <div className="flex-shrink-0 ml-4 bg-[#252520] border border-[#2A2A2A] px-3 py-1.5 font-[family-name:var(--font-body)] text-[#F0EDE6] text-sm whitespace-nowrap">
-        {sets} × {reps}
-      </div>
+
+      {/* Rest timer — only show on incomplete exercises */}
+      {!isComplete && <RestTimer />}
     </div>
   );
 }

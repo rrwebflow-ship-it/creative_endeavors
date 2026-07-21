@@ -7,6 +7,21 @@ description: Guides distinctive brand colors, typography, and visual choices. Co
 
 This skill ensures every site has a distinctive, intentional visual identity. It provides guidance for creating memorable designs.
 
+## WKOUT Project Colors
+
+These are the defined colors for this project. Always use these before falling back to generic choices.
+
+| Role | Hex | Usage |
+|------|-----|-------|
+| Background | `#0F0F0F` | Page background |
+| Primary text | `#F0EDE6` | Headings, main content |
+| Muted text | `#888780` | Labels, secondary info |
+| Borders | `#2A2A2A` | Dividers, card outlines |
+| Card background | `#252520` | Badges, pill elements |
+| **Accent / Yellow** | `#D1E231` | Interactive elements, highlights, rest timer |
+
+---
+
 ## The 60-30-10 Color Rule
 
 Every site needs exactly three color roles:
