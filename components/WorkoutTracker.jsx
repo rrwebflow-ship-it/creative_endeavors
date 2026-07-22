@@ -100,7 +100,7 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
             }}
             className="font-[family-name:var(--font-body)] text-xs uppercase tracking-widest border px-4 py-2 transition-colors"
             style={{
-              color: doneCount === 0 ? '#3A3A3A' : '#888780',
+              color: doneCount === 0 ? '#3A3A3A' : '#FFFFFF',
               borderColor: doneCount === 0 ? '#1E1E1E' : '#2A2A2A',
               cursor: doneCount === 0 ? 'default' : 'pointer',
             }}
@@ -112,7 +112,7 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
             }}
             onMouseLeave={e => {
               e.currentTarget.style.borderColor = doneCount > 0 ? '#2A2A2A' : '#1E1E1E';
-              e.currentTarget.style.color = doneCount > 0 ? '#888780' : '#3A3A3A';
+              e.currentTarget.style.color = doneCount > 0 ? '#FFFFFF' : '#3A3A3A';
             }}
           >
             Reset
