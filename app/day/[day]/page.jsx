@@ -27,13 +27,13 @@ export default async function DayPage({ params }) {
   return (
     <div className="min-h-screen bg-[#0F0F0F]">
       <div className="mx-auto w-full max-w-[480px] px-6">
-        <div className="flex items-center justify-between py-5 border-b border-[#2A2A2A]">
-          <span className="font-[family-name:var(--font-display)] text-xl font-bold uppercase text-[#F0EDE6] tracking-wider">
+        <div className="flex items-center justify-between py-5 px-6 -mx-6 bg-[#D1E231]">
+          <span className="font-[family-name:var(--font-display)] text-xl font-bold uppercase text-[#0F0F0F] tracking-wider">
             WKOUT
           </span>
           <Link
             href="/week"
-            className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase hover:text-[#F0EDE6] transition-colors"
+            className="font-[family-name:var(--font-body)] text-[#0F0F0F] text-xs tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-1.5"
           >
             FULL WEEK
           </Link>

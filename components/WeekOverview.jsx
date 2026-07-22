@@ -19,13 +19,13 @@ export default function WeekOverview() {
   return (
     <div className="min-h-screen bg-[#0F0F0F]">
       <div className="mx-auto w-full max-w-[480px] px-6">
-        <div className="flex items-center justify-between py-5 border-b border-[#2A2A2A]">
-          <span className="font-[family-name:var(--font-display)] text-xl font-bold uppercase text-[#F0EDE6] tracking-wider">
+        <div className="flex items-center justify-between py-5 px-6 -mx-6 bg-[#D1E231]">
+          <span className="font-[family-name:var(--font-display)] text-xl font-bold uppercase text-[#0F0F0F] tracking-wider">
             FULL WEEK
           </span>
           <Link
             href="/"
-            className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase hover:text-[#F0EDE6] transition-colors"
+            className="font-[family-name:var(--font-body)] text-[#0F0F0F] text-xs tracking-widest uppercase hover:opacity-60 transition-opacity"
           >
             ← TODAY
           </Link>
@@ -43,8 +43,8 @@ export default function WeekOverview() {
                   <Link
                     key={workout.day}
                     href={`/day/${workout.day}`}
-                    className={`flex items-center justify-between py-4 border-b border-[#2A2A2A] transition-colors hover:bg-[#1A1A1A]${isActive ? ' bg-[#1A1A18]' : ''}${isRest ? ' opacity-50' : ''}`}
-                    style={isActive ? { borderLeft: '3px solid #C8FF00', paddingLeft: '16px', marginLeft: '-16px' } : {}}
+                    className={`flex items-center justify-between py-4 px-6 -mx-6 border-b border-[#2A2A2A] transition-colors hover:bg-[#1A1A1A]${isActive ? ' bg-[#1A1A18]' : ''}${isRest ? ' opacity-50' : ''}`}
+                    style={isActive ? { borderLeft: '3px solid #D1E231' } : {}}
                   >
                     <div className="flex items-center gap-4 min-w-0">
                       <div
@@ -68,7 +68,7 @@ export default function WeekOverview() {
                     </div>
                     {workout.exercises.length > 0 && (
                       <div className="flex-shrink-0 ml-4 bg-[#252520] border border-[#2A2A2A] px-3 py-1 font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-wider uppercase whitespace-nowrap">
-                        {workout.exercises.length} EX
+                        {workout.exercises.length} EXERCISES
                       </div>
                     )}
                   </Link>

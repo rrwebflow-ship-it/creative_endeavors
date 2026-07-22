@@ -5,11 +5,11 @@ import RestTimer from './RestTimer';
 export default function ExerciseCard({ name, sets, reps, type, isComplete = false, isNext = false, onComplete }) {
   return (
     <div
-      className="py-4 border-b border-[#2A2A2A] transition-all duration-300"
+      className="py-4 px-6 -mx-6 border-b border-[#2A2A2A] transition-all duration-300"
       style={{
         opacity: isComplete ? 0.35 : 1,
         borderLeft: isNext ? '3px solid #D1E231' : '3px solid transparent',
-        paddingLeft: isNext ? '14px' : undefined,
+        background: isNext ? '#1A1A18' : 'transparent',
       }}
     >
       <div className="flex items-center justify-between gap-3">
@@ -51,8 +51,9 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
 
         {/* Sets badge */}
         <div
-          className="flex-shrink-0 px-3 py-1.5 font-[family-name:var(--font-body)] text-sm whitespace-nowrap transition-all duration-300"
+          className="flex-shrink-0 py-1.5 font-[family-name:var(--font-body)] text-sm whitespace-nowrap transition-all duration-300 text-center"
           style={{
+            width: '72px',
             background: isNext ? '#1A1A0F' : '#252520',
             border: isNext ? '1px solid #D1E231' : '1px solid #2A2A2A',
             color: isNext ? '#D1E231' : '#F0EDE6',
