@@ -6,7 +6,7 @@ export default function DayHeader({ dayNumber, name, focus, exerciseCount }) {
           <p className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase mb-2">
             DAY {dayNumber} OF 7
           </p>
-          <h1 className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] leading-none text-5xl sm:text-6xl">
+          <h1 className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] leading-none" style={{ fontSize: 'clamp(1.25rem, 7.5vw, 2.5rem)' }}>
             {name}
           </h1>
           <p className="font-[family-name:var(--font-body)] text-[#888780] text-sm mt-2">

@@ -12,20 +12,20 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
         background: isNext ? '#1A1A18' : 'transparent',
       }}
     >
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex items-start justify-between gap-3">
         {/* Completion circle */}
         <button
           onClick={onComplete}
           aria-label={isComplete ? 'Mark incomplete' : 'Mark complete'}
-          className="flex-shrink-0 flex items-center justify-center transition-all duration-200"
+          className="flex-shrink-0 flex items-center justify-center transition-all duration-200 mt-[3px]"
           style={{
-            width: 22,
-            height: 22,
+            width: 15,
+            height: 15,
             borderRadius: '50%',
             border: isComplete ? 'none' : isNext ? '2px solid #D1E231' : '2px solid #2A2A2A',
             background: isComplete ? '#D1E231' : 'transparent',
             color: '#0F0F0F',
-            fontSize: 11,
+            fontSize: 8,
             fontWeight: 'bold',
             cursor: 'pointer',
           }}
@@ -36,9 +36,9 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
         {/* Name & type */}
         <div className="min-w-0 flex-1">
           <p
-            className="font-[family-name:var(--font-body)] text-base transition-colors duration-300"
+            className="font-[family-name:var(--font-body)] text-sm transition-colors duration-300"
             style={{
-              color: isComplete ? '#888780' : isNext ? '#F0EDE6' : '#F0EDE6',
+              color: isComplete ? '#888780' : '#F0EDE6',
               textDecoration: isComplete ? 'line-through' : 'none',
             }}
           >
@@ -51,9 +51,9 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
 
         {/* Sets badge */}
         <div
-          className="flex-shrink-0 py-1.5 font-[family-name:var(--font-body)] text-sm whitespace-nowrap transition-all duration-300 text-center"
+          className="flex-shrink-0 py-1.5 font-[family-name:var(--font-body)] text-xs whitespace-nowrap transition-all duration-300 text-center"
           style={{
-            width: '72px',
+            width: '88px',
             background: isNext ? '#1A1A0F' : '#252520',
             border: isNext ? '1px solid #D1E231' : '1px solid #2A2A2A',
             color: isNext ? '#D1E231' : '#F0EDE6',
@@ -63,8 +63,12 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
         </div>
       </div>
 
-      {/* Rest timer — only show on incomplete exercises */}
-      {!isComplete && <RestTimer />}
+      {/* Rest timer — indented to align under exercise name, not the circle */}
+      {!isComplete && (
+        <div className="ml-[27px]">
+          <RestTimer />
+        </div>
+      )}
     </div>
   );
 }

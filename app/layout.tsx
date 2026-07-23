@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, DM_Mono } from "next/font/google";
+import { Barlow_Condensed } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { AgentationProvider } from "@/components/AgentationProvider";
 
@@ -10,9 +11,12 @@ const barlowCondensed = Barlow_Condensed({
   display: "swap",
 });
 
-const dmMono = DM_Mono({
-  weight: "400",
-  subsets: ["latin"],
+const sofiaPro = localFont({
+  src: [
+    { path: "../public/fonts/SofiaProRegular.ttf", weight: "400", style: "normal" },
+    { path: "../public/fonts/SofiaProMedium.ttf",  weight: "500", style: "normal" },
+    { path: "../public/fonts/SofiaProBold.ttf",    weight: "700", style: "normal" },
+  ],
   variable: "--font-body",
   display: "swap",
 });
@@ -28,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${barlowCondensed.variable} ${dmMono.variable}`}>
+    <html lang="en" className={`${barlowCondensed.variable} ${sofiaPro.variable}`}>
       <body className="font-[family-name:var(--font-body)] antialiased bg-[#0F0F0F] text-[#F0EDE6]">
         {children}
         <AgentationProvider />
