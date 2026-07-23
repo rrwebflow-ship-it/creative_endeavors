@@ -59,11 +59,11 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
       {/* Progress bar */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-2">
-          <span className="font-[family-name:var(--font-body)] text-[#888780] text-xs uppercase tracking-widest">
+          <span className="font-[family-name:var(--font-body)] text-[#888780] uppercase tracking-widest" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
             Progress
           </span>
-          <span className="font-[family-name:var(--font-body)] text-xs tracking-widest"
-            style={{ color: allDone ? '#D1E231' : '#888780' }}>
+          <span className="font-[family-name:var(--font-body)] tracking-widest"
+            style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)', color: allDone ? '#D1E231' : '#888780' }}>
             {doneCount} / {total}
           </span>
         </div>
@@ -98,8 +98,9 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
               setCompleted([]);
               try { localStorage.removeItem(storageKey); } catch {}
             }}
-            className="font-[family-name:var(--font-body)] text-xs uppercase tracking-widest border px-4 py-2 transition-colors"
+            className="font-[family-name:var(--font-body)] uppercase tracking-widest border px-4 py-2 transition-colors"
             style={{
+              fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)',
               color: doneCount === 0 ? '#3A3A3A' : '#FFFFFF',
               borderColor: doneCount === 0 ? '#1E1E1E' : '#2A2A2A',
               cursor: doneCount === 0 ? 'default' : 'pointer',
@@ -129,7 +130,7 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
           >
             Session<br />Complete!
           </h2>
-          <p className="font-[family-name:var(--font-body)] text-[#888780] text-sm mt-3 uppercase tracking-widest">
+          <p className="font-[family-name:var(--font-body)] text-[#888780] mt-3 uppercase tracking-widest" style={{ fontSize: 'clamp(0.75rem, 3.5vw, 0.875rem)' }}>
             Well done. Rest up.
           </p>
           <button
@@ -137,7 +138,8 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
               setCompleted([]);
               try { localStorage.removeItem(storageKey); } catch {}
             }}
-            className="mt-6 font-[family-name:var(--font-body)] text-xs uppercase tracking-widest text-[#888780] border border-[#2A2A2A] px-4 py-2 hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
+            className="mt-6 font-[family-name:var(--font-body)] uppercase tracking-widest text-[#888780] border border-[#2A2A2A] px-4 py-2 hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
+            style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
           >
             Reset Session
           </button>

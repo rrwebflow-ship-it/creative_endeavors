@@ -28,12 +28,13 @@ export default async function DayPage({ params }) {
     <div className="min-h-screen bg-[#0F0F0F]">
       <div className="mx-auto w-full max-w-[480px] px-6">
         <div className="flex items-center justify-between py-5 px-6 -mx-6 bg-[#D1E231]">
-          <span className="font-[family-name:var(--font-display)] text-xl font-bold uppercase text-[#0F0F0F] tracking-wider">
+          <span className="font-[family-name:var(--font-display)] font-bold uppercase text-[#0F0F0F] tracking-wider" style={{ fontSize: 'clamp(1rem, 5vw, 1.25rem)' }}>
             WKOUT
           </span>
           <Link
             href="/week"
-            className="font-[family-name:var(--font-body)] text-[#0F0F0F] text-xs tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-1.5"
+            className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-1.5"
+            style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
           >
             FULL WEEK
           </Link>
@@ -65,7 +66,8 @@ export default async function DayPage({ params }) {
           {dayNum > 1 ? (
             <Link
               href={`/day/${dayNum - 1}`}
-              className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase hover:text-[#F0EDE6] transition-colors"
+              className="font-[family-name:var(--font-body)] text-[#888780] tracking-widest uppercase hover:text-[#F0EDE6] transition-colors"
+              style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
             >
               ← DAY {dayNum - 1}
             </Link>
@@ -75,7 +77,8 @@ export default async function DayPage({ params }) {
           {dayNum < 7 ? (
             <Link
               href={`/day/${dayNum + 1}`}
-              className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase hover:text-[#F0EDE6] transition-colors"
+              className="font-[family-name:var(--font-body)] text-[#888780] tracking-widest uppercase hover:text-[#F0EDE6] transition-colors"
+              style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
             >
               DAY {dayNum + 1} →
             </Link>

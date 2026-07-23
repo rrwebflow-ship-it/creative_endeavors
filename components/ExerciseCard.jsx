@@ -36,23 +36,25 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
         {/* Name & type */}
         <div className="min-w-0 flex-1">
           <p
-            className="font-[family-name:var(--font-body)] text-sm transition-colors duration-300"
+            className="font-[family-name:var(--font-body)] transition-colors duration-300"
             style={{
+              fontSize: 'clamp(0.8rem, 3.5vw, 0.875rem)',
               color: isComplete ? '#888780' : '#F0EDE6',
               textDecoration: isComplete ? 'line-through' : 'none',
             }}
           >
             {name}
           </p>
-          <p className="font-[family-name:var(--font-body)] text-[#888780] text-xs uppercase mt-0.5">
+          <p className="font-[family-name:var(--font-body)] text-[#888780] uppercase mt-0.5" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
             {type}
           </p>
         </div>
 
         {/* Sets badge */}
         <div
-          className="flex-shrink-0 py-1.5 font-[family-name:var(--font-body)] text-xs whitespace-nowrap transition-all duration-300 text-center"
+          className="flex-shrink-0 py-1.5 font-[family-name:var(--font-body)] whitespace-nowrap transition-all duration-300 text-center"
           style={{
+            fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)',
             width: '88px',
             background: isNext ? '#1A1A0F' : '#252520',
             border: isNext ? '1px solid #D1E231' : '1px solid #2A2A2A',

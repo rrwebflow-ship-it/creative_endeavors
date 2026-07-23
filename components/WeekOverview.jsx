@@ -20,12 +20,13 @@ export default function WeekOverview() {
     <div className="min-h-screen bg-[#0F0F0F]">
       <div className="mx-auto w-full max-w-[480px] px-6">
         <div className="flex items-center justify-between py-5 px-6 -mx-6 bg-[#D1E231]">
-          <span className="font-[family-name:var(--font-display)] text-xl font-bold uppercase text-[#0F0F0F] tracking-wider">
+          <span className="font-[family-name:var(--font-display)] font-bold uppercase text-[#0F0F0F] tracking-wider" style={{ fontSize: 'clamp(1rem, 5vw, 1.25rem)' }}>
             FULL WEEK
           </span>
           <Link
             href="/"
-            className="font-[family-name:var(--font-body)] text-[#0F0F0F] text-xs tracking-widest uppercase hover:opacity-60 transition-opacity"
+            className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
+            style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
           >
             ← TODAY
           </Link>
@@ -48,26 +49,26 @@ export default function WeekOverview() {
                   >
                     <div className="flex items-center gap-4 min-w-0">
                       <div
-                        className={`flex items-center justify-center text-xs font-[family-name:var(--font-body)] flex-shrink-0${
+                        className={`flex items-center justify-center font-[family-name:var(--font-body)] flex-shrink-0${
                           isDone ? ' bg-[#2A5C3A] text-[#4CAF72]' :
                           isActive ? ' bg-[#C8FF00] text-[#0F0F0F] font-bold' :
                           ' border border-[#2A2A2A] text-[#888780]'
                         }`}
-                        style={{ width: 28, height: 28, borderRadius: '50%' }}
+                        style={{ width: 28, height: 28, borderRadius: '50%', fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
                       >
                         {isDone ? '✓' : workout.day}
                       </div>
                       <div className="min-w-0">
-                        <p className="font-[family-name:var(--font-display)] text-lg font-bold uppercase text-[#F0EDE6] leading-tight">
+                        <p className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] leading-tight" style={{ fontSize: 'clamp(0.95rem, 4.5vw, 1.125rem)' }}>
                           {workout.name}
                         </p>
-                        <p className="font-[family-name:var(--font-body)] text-[#888780] text-xs mt-0.5">
+                        <p className="font-[family-name:var(--font-body)] text-[#888780] mt-0.5" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
                           {workout.focus}
                         </p>
                       </div>
                     </div>
                     {workout.exercises.length > 0 && (
-                      <div className="flex-shrink-0 ml-4 bg-[#252520] border border-[#2A2A2A] px-3 py-1 font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-wider uppercase whitespace-nowrap">
+                      <div className="flex-shrink-0 ml-4 bg-[#252520] border border-[#2A2A2A] px-3 py-1 font-[family-name:var(--font-body)] text-[#888780] tracking-wider uppercase whitespace-nowrap" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
                         {workout.exercises.length} EXERCISES
                       </div>
                     )}
@@ -77,7 +78,7 @@ export default function WeekOverview() {
             </div>
 
             <div className="py-8">
-              <p className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase">
+              <p className="font-[family-name:var(--font-body)] text-[#888780] tracking-widest uppercase" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
                 {daysRemaining} DAYS REMAINING IN CYCLE
               </p>
             </div>
