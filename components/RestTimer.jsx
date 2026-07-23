@@ -249,7 +249,7 @@ export default function RestTimer() {
         <button
           onClick={() => setOpen(true)}
           className="font-[family-name:var(--font-body)] text-[#D1E231] uppercase tracking-widest hover:text-[#F0EDE6] transition-colors"
-          style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
+          style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
         >
           + Rest
         </button>
@@ -258,7 +258,7 @@ export default function RestTimer() {
       {/* Interval picker */}
       {open && (
         <div className="flex items-center gap-2 mt-1 flex-wrap">
-          <span className="font-[family-name:var(--font-body)] text-[#D1E231] uppercase tracking-widest" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
+          <span className="font-[family-name:var(--font-body)] text-[#D1E231] uppercase tracking-widest" style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}>
             Rest:
           </span>
           {INTERVALS.map(({ label, seconds }) => (
@@ -266,7 +266,7 @@ export default function RestTimer() {
               key={seconds}
               onClick={() => startTimer(seconds)}
               className="font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#D1E231] px-3 py-1 text-[#D1E231] hover:bg-[#D1E231] hover:text-[#0F0F0F] transition-colors bg-[#1A1A1A]"
-              style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
+              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
             >
               {label}
             </button>

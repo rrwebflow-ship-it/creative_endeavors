@@ -38,14 +38,14 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
           <p
             className="font-[family-name:var(--font-body)] transition-colors duration-300"
             style={{
-              fontSize: 'clamp(0.8rem, 3.5vw, 0.875rem)',
+              fontSize: '1rem',
               color: isComplete ? '#888780' : '#F0EDE6',
               textDecoration: isComplete ? 'line-through' : 'none',
             }}
           >
             {name}
           </p>
-          <p className="font-[family-name:var(--font-body)] text-[#888780] uppercase mt-0.5" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
+          <p className="font-[family-name:var(--font-body)] text-[#888780] uppercase mt-0.5" style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}>
             {type}
           </p>
         </div>
@@ -54,7 +54,7 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
         <div
           className="flex-shrink-0 py-1.5 font-[family-name:var(--font-body)] whitespace-nowrap transition-all duration-300 text-center"
           style={{
-            fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)',
+            fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)',
             width: '88px',
             background: isNext ? '#1A1A0F' : '#252520',
             border: isNext ? '1px solid #D1E231' : '1px solid #2A2A2A',
