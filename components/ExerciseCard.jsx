@@ -13,25 +13,25 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
       }}
     >
       <div className="flex items-start justify-between gap-3">
-        {/* Completion circle */}
-        <button
-          onClick={onComplete}
-          aria-label={isComplete ? 'Mark incomplete' : 'Mark complete'}
-          className="flex-shrink-0 flex items-center justify-center transition-all duration-200 mt-[3px]"
-          style={{
-            width: 15,
-            height: 15,
-            borderRadius: '50%',
-            border: isComplete ? 'none' : isNext ? '2px solid #D1E231' : '2px solid #2A2A2A',
-            background: isComplete ? '#D1E231' : 'transparent',
-            color: '#0F0F0F',
-            fontSize: 8,
-            fontWeight: 'bold',
-            cursor: 'pointer',
-          }}
-        >
-          {isComplete ? '✓' : ''}
-        </button>
+        {/* Completion circle — wrapper height = 1 line of exercise name text so circle centers with it */}
+        <div className="flex-shrink-0 flex items-center self-start" style={{ height: '1.5rem' }}>
+          <button
+            onClick={onComplete}
+            aria-label={isComplete ? 'Mark incomplete' : 'Mark complete'}
+            className="flex items-center justify-center transition-all duration-200 w-[12px] h-[12px] sm:w-[15px] sm:h-[15px] mt-[3px] sm:mt-[5px]"
+            style={{
+              borderRadius: '50%',
+              border: isComplete ? 'none' : isNext ? '2px solid #D1E231' : '2px solid #2A2A2A',
+              background: isComplete ? '#D1E231' : 'transparent',
+              color: '#0F0F0F',
+              fontSize: 7,
+              fontWeight: 'bold',
+              cursor: 'pointer',
+            }}
+          >
+            {isComplete ? '✓' : ''}
+          </button>
+        </div>
 
         {/* Name & type */}
         <div className="min-w-0 flex-1">
