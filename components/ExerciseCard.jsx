@@ -18,8 +18,9 @@ export default function ExerciseCard({ name, sets, reps, type, isComplete = fals
           <button
             onClick={onComplete}
             aria-label={isComplete ? 'Mark incomplete' : 'Mark complete'}
-            className="flex items-center justify-center transition-all duration-200 w-[15px] h-[15px] mt-[3px] sm:mt-[5px]"
+            className="flex items-center justify-center transition-all duration-200 w-[15px] h-[15px]"
             style={{
+              marginTop: 'clamp(1px, calc(1.43vw - 4.14px), 5px)',
               borderRadius: '50%',
               border: isComplete ? 'none' : isNext ? '2px solid #D1E231' : '2px solid #2A2A2A',
               background: isComplete ? '#D1E231' : 'transparent',
