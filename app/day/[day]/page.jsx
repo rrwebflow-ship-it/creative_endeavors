@@ -1,26 +1,29 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { workouts } from '@/lib/workouts';
+import { getPlan } from '@/lib/storage';
 import DayHeader from '@/components/DayHeader';
 import WorkoutTracker from '@/components/WorkoutTracker';
+import { use } from 'react';
 
-export function generateStaticParams() {
-  return workouts.map((w) => ({ day: String(w.day) }));
-}
-
-export async function generateMetadata({ params }) {
-  const { day } = await params;
-  const workout = workouts.find((w) => w.day === parseInt(day, 10));
-  if (!workout) return {};
-  return { title: `Day ${workout.day} — ${workout.name} — WKOUT` };
-}
-
-export default async function DayPage({ params }) {
-  const { day } = await params;
+export default function DayPage({ params }) {
+  const { day } = use(params);
   const dayNum = parseInt(day, 10);
-  const workout = workouts.find((w) => w.day === dayNum);
 
-  if (!workout) notFound();
+  const [workout, setWorkout] = useState(() => workouts.find(w => w.day === dayNum));
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const plan = getPlan();
+    const saved = plan.find(w => w.day === dayNum);
+    if (saved) setWorkout(saved);
+    setMounted(true);
+  }, [dayNum]);
+
+  if (!workout) return notFound();
 
   const isRestDay = workout.exercises.length === 0;
 
@@ -31,13 +34,22 @@ export default async function DayPage({ params }) {
           <span className="font-[family-name:var(--font-display)] font-bold uppercase text-[#0F0F0F] tracking-wider" style={{ fontSize: 'clamp(1.125rem, 5vw, 1.25rem)' }}>
             WKOUT
           </span>
-          <Link
-            href="/week"
-            className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-1.5"
-            style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
-          >
-            FULL WEEK
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/edit"
+              className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
+              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
+            >
+              EDIT
+            </Link>
+            <Link
+              href="/week"
+              className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-1.5"
+              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
+            >
+              FULL WEEK
+            </Link>
+          </div>
         </div>
 
         <DayHeader
@@ -50,15 +62,15 @@ export default async function DayPage({ params }) {
         <div className="mt-6">
           {isRestDay ? (
             <div className="py-8">
-              <h2 className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] leading-none text-8xl">
+              <h2 className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] leading-none" style={{ fontSize: 'clamp(4rem, 20vw, 6rem)' }}>
                 REST
               </h2>
-              <p className="font-[family-name:var(--font-body)] text-[#888780] text-sm mt-3">
+              <p className="font-[family-name:var(--font-body)] text-[#888780] mt-3" style={{ fontSize: 'clamp(0.9375rem, 3.8vw, 1rem)' }}>
                 Recovery day
               </p>
             </div>
           ) : (
-            <WorkoutTracker exercises={workout.exercises} dayNumber={dayNum} />
+            mounted && <WorkoutTracker exercises={workout.exercises} dayNumber={dayNum} />
           )}
         </div>
 

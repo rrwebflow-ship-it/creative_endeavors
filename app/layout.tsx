@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -24,6 +24,16 @@ const sofiaPro = localFont({
 export const metadata: Metadata = {
   title: "WKOUT",
   description: "Your daily workout planner.",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "WKOUT",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#D1E231",
 };
 
 export default function RootLayout({
