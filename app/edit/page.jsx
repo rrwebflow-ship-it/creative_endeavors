@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { getPlan, savePlan, resetPlan } from '@/lib/storage';
+import { getPlan, savePlan, resetPlan, resetCycle } from '@/lib/storage';
 
 export default function EditPlanPage() {
   const [plan, setPlan] = useState([]);
@@ -15,17 +15,9 @@ export default function EditPlanPage() {
     setMounted(true);
   }, []);
 
-  function toggleRestDay(dayNumber) {
-    const next = plan.map(d => {
-      if (d.day !== dayNumber) return d;
-      return { ...d, exercises: d.exercises.length > 0 ? [] : [{ name: 'Exercise 1', sets: 3, reps: 10, type: 'compound' }] };
-    });
-    setPlan(next);
-    savePlan(next);
-  }
-
   function handleReset() {
     resetPlan();
+    resetCycle();
     setPlan(getPlan());
     setShowResetConfirm(false);
   }
@@ -53,10 +45,10 @@ export default function EditPlanPage() {
         {/* Nav */}
         <div className="flex items-center justify-between py-5 px-6 -mx-6 bg-[#D1E231]">
           <span className="font-[family-name:var(--font-display)] font-bold uppercase text-[#0F0F0F] tracking-wider" style={{ fontSize: 'clamp(1.125rem, 5vw, 1.25rem)' }}>
-            EDIT PLAN
+            EDIT DAYS
           </span>
           <Link
-            href="/"
+            href="/week"
             className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
             style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
           >
@@ -67,7 +59,6 @@ export default function EditPlanPage() {
         {/* Day list */}
         <div className="mt-4">
           {plan.map(day => {
-            const isRest = day.exercises.length === 0;
             const isEditing = editingDay === day.day;
             return (
               <div key={day.day} className="py-4 px-6 -mx-6 border-b border-[#2A2A2A]">
@@ -105,11 +96,10 @@ export default function EditPlanPage() {
                     )}
                   </div>
 
-                  {/* Actions */}
                   <div className="flex flex-col items-end gap-2 flex-shrink-0">
                     <button
                       onClick={() => setEditingDay(isEditing ? null : day.day)}
-                      className="font-[family-name:var(--font-body)] uppercase tracking-widest border px-3 py-1 transition-colors"
+                      className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border px-3 py-1 transition-colors"
                       style={{
                         fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)',
                         borderColor: isEditing ? '#D1E231' : '#2A2A2A',
@@ -118,34 +108,8 @@ export default function EditPlanPage() {
                     >
                       {isEditing ? 'Done' : 'Edit'}
                     </button>
-                    <button
-                      onClick={() => toggleRestDay(day.day)}
-                      className="font-[family-name:var(--font-body)] uppercase tracking-widest border px-3 py-1 transition-colors"
-                      style={{
-                        fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)',
-                        borderColor: isRest ? '#D1E231' : '#2A2A2A',
-                        color: isRest ? '#D1E231' : '#888780',
-                      }}
-                    >
-                      {isRest ? 'Rest ✓' : 'Rest'}
-                    </button>
-                    {!isRest && (
-                      <Link
-                        href={`/edit/${day.day}`}
-                        className="font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-3 py-1 text-[#888780] hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
-                        style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
-                      >
-                        Exercises →
-                      </Link>
-                    )}
                   </div>
                 </div>
-
-                {!isRest && (
-                  <p className="font-[family-name:var(--font-body)] text-[#444440] mt-2" style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}>
-                    {day.exercises.length} exercise{day.exercises.length !== 1 ? 's' : ''}
-                  </p>
-                )}
               </div>
             );
           })}
@@ -161,14 +125,14 @@ export default function EditPlanPage() {
               <div className="flex gap-3 justify-center">
                 <button
                   onClick={handleReset}
-                  className="font-[family-name:var(--font-body)] uppercase tracking-widest px-4 py-2 bg-[#D1E231] text-[#0F0F0F] font-bold"
+                  className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest px-4 py-2 bg-[#D1E231] text-[#0F0F0F] font-bold"
                   style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
                 >
                   Yes, Reset
                 </button>
                 <button
                   onClick={() => setShowResetConfirm(false)}
-                  className="font-[family-name:var(--font-body)] uppercase tracking-widest px-4 py-2 border border-[#2A2A2A] text-[#888780]"
+                  className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest px-4 py-2 border border-[#2A2A2A] text-[#888780]"
                   style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
                 >
                   Cancel
@@ -178,7 +142,7 @@ export default function EditPlanPage() {
           ) : (
             <button
               onClick={() => setShowResetConfirm(true)}
-              className="font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-4 py-2 text-[#888780] hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
+              className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-4 py-2 text-[#888780] hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
               style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
             >
               Reset to Default Plan

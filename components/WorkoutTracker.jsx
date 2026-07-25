@@ -138,7 +138,7 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
               setCompleted([]);
               try { localStorage.removeItem(storageKey); } catch {}
             }}
-            className="mt-6 font-[family-name:var(--font-body)] uppercase tracking-widest text-[#888780] border border-[#2A2A2A] px-4 py-2 hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
+            className="cursor-pointer mt-6 font-[family-name:var(--font-body)] uppercase tracking-widest text-[#888780] border border-[#2A2A2A] px-4 py-2 hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
             style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
           >
             Reset Session

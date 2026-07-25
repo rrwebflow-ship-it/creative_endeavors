@@ -4,15 +4,23 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { workouts } from '@/lib/workouts';
 import { getCycleDay } from '@/lib/getWorkout';
+import { resetPlan, resetCycle } from '@/lib/storage';
 
 export default function WeekOverview() {
   const [mounted, setMounted] = useState(false);
   const [currentDay, setCurrentDay] = useState(1);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   useEffect(() => {
     setCurrentDay(getCycleDay());
     setMounted(true);
   }, []);
+
+  function handleReset() {
+    resetPlan();
+    resetCycle();
+    setShowResetConfirm(false);
+  }
 
   const daysRemaining = 7 - currentDay;
 
@@ -23,13 +31,22 @@ export default function WeekOverview() {
           <span className="font-[family-name:var(--font-display)] font-bold uppercase text-[#0F0F0F] tracking-wider" style={{ fontSize: 'clamp(1.125rem, 5vw, 1.25rem)' }}>
             FULL WEEK
           </span>
-          <Link
-            href="/"
-            className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
-            style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
-          >
-            ← TODAY
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/edit"
+              className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
+              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
+            >
+              EDIT
+            </Link>
+            <Link
+              href="/"
+              className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-1.5"
+              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
+            >
+              ← TODAY
+            </Link>
+          </div>
         </div>
 
         {mounted ? (
@@ -77,10 +94,36 @@ export default function WeekOverview() {
               })}
             </div>
 
-            <div className="py-8">
+            <div className="py-8 flex items-center justify-between">
               <p className="font-[family-name:var(--font-body)] text-[#888780] tracking-widest uppercase" style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}>
                 {daysRemaining} DAYS REMAINING IN CYCLE
               </p>
+              {showResetConfirm ? (
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleReset}
+                    className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest px-4 py-2 bg-[#D1E231] text-[#0F0F0F] font-bold"
+                    style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
+                  >
+                    Confirm
+                  </button>
+                  <button
+                    onClick={() => setShowResetConfirm(false)}
+                    className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest px-4 py-2 border border-[#2A2A2A] text-[#888780]"
+                    style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setShowResetConfirm(true)}
+                  className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-4 py-2 text-[#888780] hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
+                  style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
+                >
+                  Reset
+                </button>
+              )}
             </div>
           </>
         ) : (

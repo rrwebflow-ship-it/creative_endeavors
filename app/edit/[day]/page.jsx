@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
 import { getPlan, updateExercises } from '@/lib/storage';
 import EditExerciseForm from '@/components/EditExerciseForm';
 
 export default function EditDayPage({ params }) {
-  const dayNumber = parseInt(params.day, 10);
+  const { day } = use(params);
+  const dayNumber = parseInt(day, 10);
   const [exercises, setExercises] = useState([]);
   const [dayName, setDayName] = useState('');
   const [mounted, setMounted] = useState(false);
@@ -71,11 +72,11 @@ export default function EditDayPage({ params }) {
             {dayName}
           </span>
           <Link
-            href="/edit"
+            href={`/day/${dayNumber}`}
             className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
             style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
           >
-            ← PLAN
+            ← BACK
           </Link>
         </div>
 
@@ -102,22 +103,22 @@ export default function EditDayPage({ params }) {
                     {/* Reorder */}
                     <div className="flex flex-col gap-0.5">
                       <button onClick={() => moveUp(i)} disabled={i === 0}
-                        className="text-[#444440] hover:text-[#D1E231] disabled:opacity-20 transition-colors leading-none"
+                        className="cursor-pointer text-[#444440] hover:text-[#D1E231] disabled:opacity-20 transition-colors leading-none"
                         style={{ fontSize: 10 }}>▲</button>
                       <button onClick={() => moveDown(i)} disabled={i === exercises.length - 1}
-                        className="text-[#444440] hover:text-[#D1E231] disabled:opacity-20 transition-colors leading-none"
+                        className="cursor-pointer text-[#444440] hover:text-[#D1E231] disabled:opacity-20 transition-colors leading-none"
                         style={{ fontSize: 10 }}>▼</button>
                     </div>
                     <button
                       onClick={() => setEditingIndex(i)}
-                      className="font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-2 py-1 text-[#888780] hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
+                      className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-2 py-1 text-[#888780] hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
                       style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => handleDelete(i)}
-                      className="font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-2 py-1 text-[#888780] hover:border-red-500 hover:text-red-500 transition-colors"
+                      className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-2 py-1 text-[#888780] hover:border-red-500 hover:text-red-500 transition-colors"
                       style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
                     >
                       ✕
@@ -138,7 +139,7 @@ export default function EditDayPage({ params }) {
             <div className="flex justify-center py-6">
               <button
                 onClick={() => setAddingNew(true)}
-                className="font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-4 py-2 text-[#D1E231] hover:border-[#D1E231] transition-colors"
+                className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-4 py-2 text-[#D1E231] hover:border-[#D1E231] transition-colors"
                 style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
               >
                 + Add Exercise

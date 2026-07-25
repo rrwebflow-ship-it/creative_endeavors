@@ -248,7 +248,7 @@ export default function RestTimer() {
       {!running && !done && !open && (
         <button
           onClick={() => setOpen(true)}
-          className="font-[family-name:var(--font-body)] text-[#D1E231] uppercase tracking-widest hover:text-[#F0EDE6] transition-colors"
+          className="cursor-pointer font-[family-name:var(--font-body)] text-[#D1E231] uppercase tracking-widest hover:text-[#F0EDE6] transition-colors"
           style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
         >
           + Rest
@@ -265,7 +265,7 @@ export default function RestTimer() {
             <button
               key={seconds}
               onClick={() => startTimer(seconds)}
-              className="font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#D1E231] px-3 py-1 text-[#D1E231] hover:bg-[#D1E231] hover:text-[#0F0F0F] transition-colors bg-[#1A1A1A]"
+              className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#D1E231] px-3 py-1 text-[#D1E231] hover:bg-[#D1E231] hover:text-[#0F0F0F] transition-colors bg-[#1A1A1A]"
               style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
             >
               {label}
@@ -273,7 +273,7 @@ export default function RestTimer() {
           ))}
           <button
             onClick={() => setOpen(false)}
-            className="font-[family-name:var(--font-body)] text-[#888780] text-xs hover:text-[#F0EDE6] transition-colors px-1"
+            className="cursor-pointer font-[family-name:var(--font-body)] text-[#888780] text-xs hover:text-[#F0EDE6] transition-colors px-1"
           >
             ✕
           </button>

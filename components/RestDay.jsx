@@ -39,7 +39,7 @@ export default function RestDay({ tomorrowWorkout, cycleDay }) {
       <div className="mt-10">
         <button
           onClick={resetCycle}
-          className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase border border-[#2A2A2A] px-4 py-2 hover:border-[#C8FF00] hover:text-[#C8FF00] transition-colors"
+          className="cursor-pointer font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase border border-[#2A2A2A] px-4 py-2 hover:border-[#C8FF00] hover:text-[#C8FF00] transition-colors"
         >
           RESET CYCLE
         </button>

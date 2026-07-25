@@ -36,7 +36,7 @@ export default function DayPage({ params }) {
           </span>
           <div className="flex items-center gap-3">
             <Link
-              href="/edit"
+              href={`/edit/${dayNum}`}
               className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
               style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
             >
