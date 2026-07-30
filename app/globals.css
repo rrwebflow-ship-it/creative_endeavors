@@ -3,6 +3,34 @@
 @theme inline {
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
+
+  --animate-warm-up-pulse-text:   warmUpPulseText   3s ease-in-out 0.3s 1 forwards;
+  --animate-warm-up-pulse-circle: warmUpPulseCircle 3s ease-in-out 0.3s 1 forwards;
+  --animate-warm-up-pulse-button: warmUpPulseButton 3s ease-in-out 0.3s 1 forwards;
+}
+
+/* Pulse 1: 0–0.9s (0%–30%), Pulse 2: 0.9–1.9s (30%–63%), Pulse 3: 1.9–3.0s (63%–100%) */
+/* Each peak is at the midpoint of its cycle: 15%, 47%, 82%                               */
+
+@keyframes warmUpPulseText {
+  0%, 30%, 63%, 100% { text-shadow: none; }
+  15%  { text-shadow: 0 0 14px rgba(255,140,66,0.85), 0 0 28px rgba(255,140,66,0.4); }
+  47%  { text-shadow: 0 0 14px rgba(255,140,66,0.85), 0 0 28px rgba(255,140,66,0.4); }
+  82%  { text-shadow: 0 0 14px rgba(255,140,66,0.85), 0 0 28px rgba(255,140,66,0.4); }
+}
+
+@keyframes warmUpPulseCircle {
+  0%, 30%, 63%, 100% { box-shadow: none; }
+  15%  { box-shadow: 0 0 14px rgba(255,140,66,0.85), 0 0 28px rgba(255,140,66,0.4); }
+  47%  { box-shadow: 0 0 14px rgba(255,140,66,0.85), 0 0 28px rgba(255,140,66,0.4); }
+  82%  { box-shadow: 0 0 14px rgba(255,140,66,0.85), 0 0 28px rgba(255,140,66,0.4); }
+}
+
+@keyframes warmUpPulseButton {
+  0%, 30%, 63%, 100% { box-shadow: none; }
+  15%  { box-shadow: 0 0 14px rgba(255,140,66,0.7), 0 0 28px rgba(255,140,66,0.3), inset 0 0 8px rgba(255,140,66,0.15); }
+  47%  { box-shadow: 0 0 14px rgba(255,140,66,0.7), 0 0 28px rgba(255,140,66,0.3), inset 0 0 8px rgba(255,140,66,0.15); }
+  82%  { box-shadow: 0 0 14px rgba(255,140,66,0.7), 0 0 28px rgba(255,140,66,0.3), inset 0 0 8px rgba(255,140,66,0.15); }
 }
 
 body {

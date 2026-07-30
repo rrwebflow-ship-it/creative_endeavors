@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import ExerciseCard from './ExerciseCard';
+import WarmUpCard from './WarmUpCard';
 
-export default function WorkoutTracker({ exercises, dayNumber }) {
+export default function WorkoutTracker({ exercises, dayNumber, warmupCount }) {
   const storageKey = `wkout-day-${dayNumber}`;
   const [completed, setCompleted] = useState([]);
   const [mounted, setMounted] = useState(false);
@@ -74,6 +75,9 @@ export default function WorkoutTracker({ exercises, dayNumber }) {
           />
         </div>
       </div>
+
+      {/* Warm-up card — doesn't count toward progress */}
+      {warmupCount > 0 && <WarmUpCard dayNum={dayNumber} itemCount={warmupCount} />}
 
       {/* Exercise list */}
       {exercises.map((exercise, i) => (

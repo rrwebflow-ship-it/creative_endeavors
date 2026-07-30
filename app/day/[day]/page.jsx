@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { workouts } from '@/lib/workouts';
 import { getPlan } from '@/lib/storage';
+import { getWarmupForDay } from '@/lib/warmupStorage';
 import DayHeader from '@/components/DayHeader';
 import WorkoutTracker from '@/components/WorkoutTracker';
 import { use } from 'react';
@@ -14,12 +15,15 @@ export default function DayPage({ params }) {
   const dayNum = parseInt(day, 10);
 
   const [workout, setWorkout] = useState(() => workouts.find(w => w.day === dayNum));
+  const [warmupCount, setWarmupCount] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const plan = getPlan();
     const saved = plan.find(w => w.day === dayNum);
     if (saved) setWorkout(saved);
+    const warmup = getWarmupForDay(dayNum);
+    setWarmupCount(warmup.items?.length || 0);
     setMounted(true);
   }, [dayNum]);
 
@@ -70,7 +74,7 @@ export default function DayPage({ params }) {
               </p>
             </div>
           ) : (
-            mounted && <WorkoutTracker exercises={workout.exercises} dayNumber={dayNum} />
+            mounted && <WorkoutTracker exercises={workout.exercises} dayNumber={dayNum} warmupCount={warmupCount} />
           )}
         </div>
 
@@ -95,7 +99,13 @@ export default function DayPage({ params }) {
               DAY {dayNum + 1} →
             </Link>
           ) : (
-            <span />
+            <Link
+              href="/day/1"
+              className="font-[family-name:var(--font-body)] text-[#888780] tracking-widest uppercase hover:text-[#F0EDE6] transition-colors"
+              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
+            >
+              RESTART CYCLE →
+            </Link>
           )}
         </div>
       </div>
