@@ -3,6 +3,7 @@ import { Barlow_Condensed } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { AgentationProvider } from "@/components/AgentationProvider";
+import OnboardingOverlay from "@/components/Onboarding/OnboardingOverlay";
 
 const barlowCondensed = Barlow_Condensed({
   weight: "700",
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body className="font-[family-name:var(--font-body)] antialiased bg-[#0F0F0F] text-[#F0EDE6]">
         {children}
         <AgentationProvider />
+        <OnboardingOverlay />
       </body>
     </html>
   );

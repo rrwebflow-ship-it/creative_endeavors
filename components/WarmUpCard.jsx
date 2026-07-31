@@ -33,6 +33,7 @@ export default function WarmUpCard({ dayNum, itemCount }) {
   return (
     <div
       className="pt-1.5 pb-4 px-6 -mx-6 border-b border-[#2A2A2A] transition-all duration-300"
+      data-onboarding="warmup-card"
       style={{ opacity: checked ? 0.35 : 1 }}
     >
       <div className="flex items-start justify-between gap-3">
@@ -80,11 +81,12 @@ export default function WarmUpCard({ dayNum, itemCount }) {
         {/* SEE ROUTINE — unchanged */}
         <Link
           href={`/warmup/${dayNum}`}
-          className={`cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border px-3 py-1.5 transition-colors flex-shrink-0${showAnim ? ' animate-warm-up-pulse-button' : ''}`}
+          className={`inline-flex items-center gap-1 leading-none cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border px-3 pb-1.5 transition-colors flex-shrink-0${showAnim ? ' animate-warm-up-pulse-button' : ''}`}
           style={{
             color: ORANGE,
             borderColor: ORANGE,
             fontSize: 'clamp(0.72rem, 3vw, 0.84rem)',
+            paddingTop: '9px',
           }}
           onMouseEnter={e => {
             e.currentTarget.style.background = ORANGE;
@@ -95,7 +97,8 @@ export default function WarmUpCard({ dayNum, itemCount }) {
             e.currentTarget.style.color = ORANGE;
           }}
         >
-          SEE ROUTINE →
+          <span style={{ lineHeight: 1 }}>SEE ROUTINE</span>
+          <span style={{ lineHeight: 1 }}>→</span>
         </Link>
 
       </div>

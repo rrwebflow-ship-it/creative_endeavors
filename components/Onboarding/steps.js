@@ -1,0 +1,42 @@
+export const STEPS = [
+  {
+    id: 0,
+    title: 'Welcome to your\nWorkout Planner',
+    body: 'A 7-day training cycle designed for the gym. Each day has a dedicated focus — Legs, Deadlifts & Shoulders, Push, Pull, Isolation, Core, and Rest. The cycle repeats automatically.',
+    selector: null,
+    tooltipPosition: null,
+    route: null,
+  },
+  {
+    id: 1,
+    title: 'Your workout,\nright now',
+    body: 'This is the Today view — your home screen. It shows your current day in the cycle, the muscle focus, and every exercise planned for the session including sets and reps.',
+    selector: '[data-onboarding="day-hero"]',
+    tooltipPosition: 'below',
+    route: null,
+  },
+  {
+    id: 2,
+    title: 'Start with\nyour warm-up',
+    body: 'The Warm-Up card sits at the top of every session. Tap "SEE ROUTINE" to view the warm-up exercises. Tap the circle to mark it complete — the card fades when done.',
+    selector: '[data-onboarding="warmup-card"]',
+    tooltipPosition: 'below',
+    route: null,
+  },
+  {
+    id: 3,
+    title: 'See the\nfull week',
+    body: 'The Week Overview shows all 7 days in your current cycle. Days you have completed are marked. Your current day is highlighted. Tap any day card to view its full exercise list.',
+    selector: '[data-onboarding="week-grid"]',
+    tooltipPosition: 'below',
+    route: '/week',
+  },
+  {
+    id: 4,
+    title: 'Missed a day?\nReset anytime',
+    body: 'If your cycle falls out of sync, tap Reset to restart from Day 1. Your new start date is saved automatically.',
+    selector: '[data-onboarding="reset-button"]',
+    tooltipPosition: 'above',
+    route: '/week',
+  },
+];

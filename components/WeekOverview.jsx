@@ -34,24 +34,24 @@ export default function WeekOverview() {
           <div className="flex items-center gap-3">
             <Link
               href="/edit"
-              className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
-              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
+              className="inline-flex items-center justify-center leading-none font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity"
+              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)', transform: 'translateY(2px)' }}
             >
               EDIT
             </Link>
             <Link
               href="/"
-              className="font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-1.5"
-              style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)' }}
+              className="inline-flex items-center justify-center gap-1 leading-none font-[family-name:var(--font-body)] text-[#0F0F0F] tracking-widest uppercase hover:opacity-60 transition-opacity border border-[#0F0F0F] px-3 py-2"
             >
-              ← TODAY
+              <span style={{ fontSize: 'clamp(1rem, 4vw, 1.125rem)', lineHeight: 1, transform: 'translateY(-0.5px)', display: 'inline-block' }}>←</span>
+              <span style={{ fontSize: 'clamp(0.8125rem, 3.2vw, 0.875rem)', lineHeight: 1, transform: 'translateY(1px)', display: 'inline-block' }}>TODAY</span>
             </Link>
           </div>
         </div>
 
         {mounted ? (
           <>
-            <div className="mt-2">
+            <div className="mt-2" data-onboarding="week-grid">
               {workouts.map((workout) => {
                 const isDone = workout.day < currentDay;
                 const isActive = workout.day === currentDay;
@@ -118,6 +118,7 @@ export default function WeekOverview() {
               ) : (
                 <button
                   onClick={() => setShowResetConfirm(true)}
+                  data-onboarding="reset-button"
                   className="cursor-pointer font-[family-name:var(--font-body)] uppercase tracking-widest border border-[#2A2A2A] px-4 py-2 text-[#888780] hover:border-[#D1E231] hover:text-[#D1E231] transition-colors"
                   style={{ fontSize: 'clamp(0.6rem, 2.5vw, 0.7rem)' }}
                 >
