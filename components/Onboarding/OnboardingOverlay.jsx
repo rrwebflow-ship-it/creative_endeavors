@@ -24,10 +24,27 @@ export default function OnboardingOverlay() {
     } catch {}
   }, []);
 
-  // Lock body scroll while overlay is visible
+  // Lock scroll on both <html> and <body> for all 5 steps across all mobile browsers
   useEffect(() => {
-    document.body.style.overflow = hidden ? '' : 'hidden';
-    return () => { document.body.style.overflow = ''; };
+    const el  = document.documentElement;
+    const bod = document.body;
+    if (hidden) {
+      el.style.overflow  = '';
+      bod.style.overflow = '';
+      el.style.position  = '';
+      bod.style.position = '';
+    } else {
+      el.style.overflow  = 'hidden';
+      bod.style.overflow = 'hidden';
+      el.style.position  = 'relative';
+      bod.style.position = 'relative';
+    }
+    return () => {
+      el.style.overflow  = '';
+      bod.style.overflow = '';
+      el.style.position  = '';
+      bod.style.position = '';
+    };
   }, [hidden]);
 
   // Re-measure target whenever step or route changes
