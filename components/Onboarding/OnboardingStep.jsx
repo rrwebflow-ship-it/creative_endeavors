@@ -154,26 +154,37 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
   const HEADER_H = 60;   // lime bar at top of every page
   const BAR_H    = 118;  // bottom progress/nav bar
 
-  // Place text in whichever half of the screen has more empty space
-  const spaceAbove = rect ? rect.top - HEADER_H - 8 : 0;
+  // When the element fills most of the screen (e.g. the full week-grid),
+  // a spotlight cutout makes no sense — skip it and use full-screen dim instead.
+  // The arrow then points to the TOP of the element (first visible row/item).
+  const isTooLarge = rect ? rect.height > winH * 0.38 : false;
+
+  // For oversized elements: always put text at the BOTTOM so the arrow
+  // points upward toward the element's first row — clearest reading.
+  // For normal elements: put text where there is more empty space.
+  const spaceAbove = rect ? rect.top - HEADER_H - 8    : 0;
   const spaceBelow = rect ? winH - rect.bottom - BAR_H - 8 : winH * 0.5;
-  const textAbove  = spaceAbove > spaceBelow;
+  const textAbove  = isTooLarge ? false : spaceAbove > spaceBelow;
 
   // Compute arrow after text block renders so we know its exact position
   useLayoutEffect(() => {
     if (!rect || !textRef.current) { setArrow(null); return; }
 
-    const tb   = textRef.current.getBoundingClientRect();
-    const sCX  = rect.left + rect.width  / 2; // spotlight centre X
-    const tCX  = tb.left   + tb.width    / 2; // text block centre X
+    const tb  = textRef.current.getBoundingClientRect();
+    const sCX = rect.left + rect.width  / 2;
+    const tCX = tb.left   + tb.width    / 2;
 
     let x1, y1, x2, y2;
-    if (textAbove) {
-      // Text sits ABOVE the spotlight → arrow curves downward
+    if (isTooLarge) {
+      // Text is at bottom, arrow goes UP to the top region of the large element
+      x1 = tCX;  y1 = tb.top - 14;
+      x2 = sCX;  y2 = rect.top + 36;   // point at first row, not the very edge
+    } else if (textAbove) {
+      // Text is ABOVE the spotlight → arrow curves downward
       x1 = tCX;  y1 = tb.bottom + 14;
-      x2 = sCX;  y2 = rect.top   - 14;
+      x2 = sCX;  y2 = rect.top  - 14;
     } else {
-      // Text sits BELOW the spotlight → arrow curves upward
+      // Text is BELOW the spotlight → arrow curves upward
       x1 = tCX;  y1 = tb.top    - 14;
       x2 = sCX;  y2 = rect.bottom + 14;
     }
@@ -181,7 +192,7 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
     const dy    = y2 - y1;
     const curve = `M ${x1} ${y1} C ${x1} ${y1 + dy * 0.45} ${x2} ${y2 - dy * 0.45} ${x2} ${y2}`;
 
-    // Open-V arrowhead at the spotlight end — same weight as the stroke
+    // Open-V arrowhead at the element end — same stroke weight as the body line
     const H    = HEAD_SIZE;
     const down = y2 > y1;
     const head = down
@@ -189,9 +200,9 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
       : `M ${x2 - H} ${y2 + H * 1.1} L ${x2} ${y2} L ${x2 + H} ${y2 + H * 1.1}`;
 
     setArrow({ curve, head });
-  }, [rect, textAbove]);
+  }, [rect, textAbove, isTooLarge]);
 
-  // Text block floats in the open space, horizontally centred
+  // Text block floats in the available space, horizontally centred
   const textPos = textAbove
     ? { top: HEADER_H + 16 }
     : { bottom: BAR_H + 16 };
@@ -200,8 +211,8 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
 
   return (
     <>
-      {/* Dim overlay with spotlight cutout */}
-      {rect ? (
+      {/* Dim overlay — spotlight cutout for small targets, full dim for large ones */}
+      {rect && !isTooLarge ? (
         <div style={{
           position: 'fixed',
           top:    rect.top    - pad,
