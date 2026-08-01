@@ -210,8 +210,8 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
   const EST_TEXT_H   = 130;  // rough text block height (heading + body)
 
   let textTopPx;
-  if (isTooLarge) {
-    // Large element: anchor text to bottom of dim area
+  if (isTooLarge || !rect) {
+    // Large element or not yet measured: anchor text to bottom of dim area
     textTopPx = winH - BAR_H - EST_TEXT_H - 16;
   } else if (textAbove) {
     // Text above spotlight — step back TARGET_ARROW from element top
