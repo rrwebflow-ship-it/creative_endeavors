@@ -168,15 +168,33 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
 
   // Week-grid step gets its own gradient treatment — no arrow, no spotlight cutout
   const isWeekGridStep = stepConfig.selector === '[data-onboarding="week-grid"]';
+  // Reset button is hidden behind the fixed nav bar — use full-screen dim + straight short arrow
+  const isResetStep    = stepConfig.selector === '[data-onboarding="reset-button"]';
 
   // Compute arrow after text block renders so we know its exact position
   useLayoutEffect(() => {
     // Week-grid step has no arrow
-    if (isWeekGridStep || !rect || !textRef.current) { setArrow(null); return; }
+    if (isWeekGridStep || !textRef.current) { setArrow(null); return; }
 
     const tb  = textRef.current.getBoundingClientRect();
+    const tCX = tb.left + tb.width / 2;
+
+    // Reset step: straight short arrow pointing downward toward the nav bar top edge
+    // (Reset button lives just behind it — arrow tip lands at the nav bar boundary)
+    if (isResetStep) {
+      const x1 = tCX;
+      const y1 = tb.bottom + 14;
+      const x2 = tCX;
+      const y2 = winH - BAR_H - 20;  // just above the nav bar
+      const H  = HEAD_SIZE;
+      const head = `M ${x2 - H} ${y2 - H * 1.1} L ${x2} ${y2} L ${x2 + H} ${y2 - H * 1.1}`;
+      setArrow({ curve: `M ${x1} ${y1} L ${x2} ${y2}`, head });
+      return;
+    }
+
+    if (!rect) { setArrow(null); return; }
+
     const sCX = rect.left + rect.width  / 2;
-    const tCX = tb.left   + tb.width    / 2;
 
     let x1, y1, x2, y2;
     if (isTooLarge) {
@@ -204,7 +222,7 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
       : `M ${x2 - H} ${y2 + H * 1.1} L ${x2} ${y2} L ${x2 + H} ${y2 + H * 1.1}`;
 
     setArrow({ curve, head });
-  }, [rect, textAbove, isTooLarge]);
+  }, [rect, textAbove, isTooLarge, isResetStep]);
 
   // Position text a fixed TARGET_ARROW distance from the spotlight element so
   // the arrow is always roughly the same length regardless of where the element
@@ -214,7 +232,10 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
   const EST_TEXT_H   = 130;  // rough text block height (heading + body)
 
   let textTopPx;
-  if (isTooLarge || !rect) {
+  if (isResetStep) {
+    // Button is behind nav bar — place text in the upper-centre of the screen
+    textTopPx = HEADER_H + Math.round((winH - BAR_H - HEADER_H) * 0.25);
+  } else if (isTooLarge || !rect) {
     // Large element or not yet measured: anchor text to bottom of dim area
     textTopPx = winH - BAR_H - EST_TEXT_H - 16;
   } else if (textAbove) {
@@ -262,7 +283,9 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
            week-grid  → top-to-bottom gradient (navbar + 2 rows fully visible, then fades to opaque)
            small rect → spotlight cutout via box-shadow
            else       → full-screen flat dim                                                        */}
-      {isWeekGridStep ? (
+      {isResetStep ? (
+        <div style={{ position: 'fixed', inset: 0, background: OVERLAY, zIndex: 99001, pointerEvents: 'none' }} />
+      ) : isWeekGridStep ? (
         <div style={{
           position: 'fixed',
           inset: 0,
