@@ -166,9 +166,13 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
   const spaceBelow = rect ? winH - rect.bottom - BAR_H - 8 : winH * 0.5;
   const textAbove  = isTooLarge ? false : spaceAbove > spaceBelow;
 
+  // Week-grid step gets its own gradient treatment — no arrow, no spotlight cutout
+  const isWeekGridStep = stepConfig.selector === '[data-onboarding="week-grid"]';
+
   // Compute arrow after text block renders so we know its exact position
   useLayoutEffect(() => {
-    if (!rect || !textRef.current) { setArrow(null); return; }
+    // Week-grid step has no arrow
+    if (isWeekGridStep || !rect || !textRef.current) { setArrow(null); return; }
 
     const tb  = textRef.current.getBoundingClientRect();
     const sCX = rect.left + rect.width  / 2;
@@ -178,7 +182,7 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
     if (isTooLarge) {
       // Text is at bottom, arrow goes UP to the top region of the large element
       x1 = tCX;  y1 = tb.top - 14;
-      x2 = sCX;  y2 = rect.top + 36;   // point at first row, not the very edge
+      x2 = sCX;  y2 = rect.top + 36;
     } else if (textAbove) {
       // Text is ABOVE the spotlight → arrow curves downward
       x1 = tCX;  y1 = tb.bottom + 14;
@@ -254,8 +258,27 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
         `}</style>
       )}
 
-      {/* Dim overlay — spotlight cutout for small targets, full dim for large ones */}
-      {rect && !isTooLarge ? (
+      {/* Dim overlay — three variants:
+           week-grid  → top-to-bottom gradient (navbar + 2 rows fully visible, then fades to opaque)
+           small rect → spotlight cutout via box-shadow
+           else       → full-screen flat dim                                                        */}
+      {isWeekGridStep ? (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          // Transparent over the lime header + first 2 day rows (~190px),
+          // then sweeps to full opacity just above the explanatory text.
+          background: `linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 190px,
+            ${OVERLAY} ${textTopPx - 28}px,
+            ${OVERLAY} 100%
+          )`,
+          zIndex: 99001,
+          pointerEvents: 'none',
+        }} />
+      ) : rect && !isTooLarge ? (
         <div style={{
           position: 'fixed',
           top:    rect.top    - pad,
