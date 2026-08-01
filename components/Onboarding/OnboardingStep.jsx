@@ -166,13 +166,19 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
   const spaceBelow = rect ? winH - rect.bottom - BAR_H - 8 : winH * 0.5;
   const textAbove  = isTooLarge ? false : spaceAbove > spaceBelow;
 
-  // Week-grid step gets its own gradient treatment — no arrow, no spotlight cutout
-  const isWeekGridStep = stepConfig.selector === '[data-onboarding="week-grid"]';
+  // Steps that use the gradient overlay approach (no spotlight, no arrow).
+  // Full Week screen fades from 190px; home screen fades from 120px (higher up).
+  const isWeekGridStep    = stepConfig.selector === '[data-onboarding="week-grid"]';
+  const isHomeGradientStep = (
+    stepConfig.selector === '[data-onboarding="day-hero"]' ||
+    stepConfig.selector === '[data-onboarding="warmup-card"]'
+  );
+  const isGradientStep = isWeekGridStep || isHomeGradientStep;
 
   // Compute arrow after text block renders so we know its exact position
   useLayoutEffect(() => {
-    // Week-grid step has no arrow
-    if (isWeekGridStep || !rect || !textRef.current) { setArrow(null); return; }
+    // Gradient steps have no arrow
+    if (isGradientStep || !rect || !textRef.current) { setArrow(null); return; }
 
     const tb  = textRef.current.getBoundingClientRect();
     const sCX = rect.left + rect.width  / 2;
@@ -214,7 +220,7 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
   const EST_TEXT_H   = 130;  // rough text block height (heading + body)
 
   let textTopPx;
-  if (isTooLarge || !rect) {
+  if (isTooLarge || isGradientStep || !rect) {
     // Large element or not yet measured: anchor text to bottom of dim area
     textTopPx = winH - BAR_H - EST_TEXT_H - 16;
   } else if (textAbove) {
@@ -259,22 +265,18 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
       )}
 
       {/* Dim overlay — three variants:
-           week-grid  → top-to-bottom gradient (navbar + 2 rows fully visible, then fades to opaque)
-           small rect → spotlight cutout via box-shadow
-           else       → full-screen flat dim                                                        */}
-      {isWeekGridStep ? (
+           gradient steps → top-to-bottom gradient, transparent zone differs per page
+           small rect     → spotlight cutout via box-shadow
+           else           → full-screen flat dim                                       */}
+      {isGradientStep ? (
         <div style={{
           position: 'fixed',
           inset: 0,
-          // Transparent over the lime header + first 2 day rows (~190px),
-          // then sweeps to full opacity just above the explanatory text.
-          background: `linear-gradient(
-            to bottom,
-            transparent 0px,
-            transparent 190px,
-            ${OVERLAY} ${textTopPx - 28}px,
-            ${OVERLAY} 100%
-          )`,
+          background: isWeekGridStep
+            // Full Week: lime navbar + first 2 day rows fully visible (190px), then fades
+            ? `linear-gradient(to bottom, transparent 0px, transparent 190px, ${OVERLAY} ${textTopPx - 28}px, ${OVERLAY} 100%)`
+            // Home screen: only lime navbar fully visible (120px), gradient starts higher
+            : `linear-gradient(to bottom, transparent 0px, transparent 120px, ${OVERLAY} ${textTopPx - 28}px, ${OVERLAY} 100%)`,
           zIndex: 99001,
           pointerEvents: 'none',
         }} />
