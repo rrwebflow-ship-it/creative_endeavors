@@ -7,7 +7,7 @@ const SURFACE      = '#1A1A1A';
 const BORDER       = '#2A2A2A';
 const TEXT         = '#F0EDE6';
 const MUTED        = '#888780';
-const OVERLAY      = 'rgba(15,15,15,0.88)';
+const OVERLAY      = 'rgba(15,15,15,0.98)';
 const ARROW_STROKE = 3;   // visual weight matching bold display heading
 const HEAD_SIZE    = 12;  // arrowhead arm length
 
