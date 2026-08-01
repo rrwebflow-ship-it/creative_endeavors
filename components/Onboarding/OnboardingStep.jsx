@@ -145,7 +145,8 @@ function WelcomeCard({ stepConfig, stepIndex, totalSteps, onNext, onSkip }) {
 
 // ── Steps 2-5: spotlight + floating text + bold SVG arrow ────────────────────
 function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, onBack, onSkip }) {
-  const textRef  = useRef(null);
+  const textRef     = useRef(null);
+  const cloneBtnRef = useRef(null);
   const [arrow, setArrow] = useState(null);
 
   const winW = typeof window !== 'undefined' ? window.innerWidth  : 390;
@@ -179,13 +180,13 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
     const tb  = textRef.current.getBoundingClientRect();
     const tCX = tb.left + tb.width / 2;
 
-    // Reset step: straight short arrow pointing downward toward the nav bar top edge
-    // (Reset button lives just behind it — arrow tip lands at the nav bar boundary)
+    // Reset step: arrow points down to the clone button rendered just above the nav bar
     if (isResetStep) {
+      const cb = cloneBtnRef.current?.getBoundingClientRect();
       const x1 = tCX;
       const y1 = tb.bottom + 14;
-      const x2 = tCX;
-      const y2 = winH - BAR_H - 20;  // just above the nav bar
+      const x2 = cb ? cb.left + cb.width / 2 : tCX;
+      const y2 = cb ? cb.top - 10 : winH - BAR_H - 60;
       const H  = HEAD_SIZE;
       const head = `M ${x2 - H} ${y2 - H * 1.1} L ${x2} ${y2} L ${x2 + H} ${y2 - H * 1.1}`;
       setArrow({ curve: `M ${x1} ${y1} L ${x2} ${y2}`, head });
@@ -345,6 +346,37 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
         <h2 style={headingStyle}>{stepConfig.title}</h2>
         <p style={bodyStyle}>{stepConfig.body}</p>
       </div>
+
+      {/* Reset step: clone of the actual Reset button, lifted above the nav bar at full opacity */}
+      {isResetStep && (
+        <div style={{
+          position: 'fixed',
+          bottom: BAR_H + 20,
+          left: 0, right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          zIndex: 99005,
+          pointerEvents: 'none',
+        }}>
+          <button
+            ref={cloneBtnRef}
+            style={{
+              fontFamily: 'var(--font-body)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.15em',
+              border: `1px solid ${LIME}`,
+              padding: '10px 24px',
+              color: LIME,
+              background: 'transparent',
+              fontSize: 'clamp(0.7rem, 2.8vw, 0.8rem)',
+              pointerEvents: 'none',
+              fontWeight: 'bold',
+            }}
+          >
+            RESET
+          </button>
+        </div>
+      )}
 
       <BottomBar
         stepIndex={stepIndex}
