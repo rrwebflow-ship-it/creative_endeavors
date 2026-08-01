@@ -228,8 +228,32 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
 
   const pad = 8;
 
+  // Pulsing orange glow for the warm-up card step — matches WarmUpCard's accent colour
+  const isWarmupStep = stepConfig.selector === '[data-onboarding="warmup-card"]';
+  const ORANGE = '#FF8C42';
+
   return (
     <>
+      {/* Keyframe injected only for the warm-up step */}
+      {isWarmupStep && (
+        <style>{`
+          @keyframes wkout-warmup-glow {
+            0%, 100% {
+              box-shadow:
+                0 0 0 9999px rgba(15,15,15,0.98),
+                0 0 0 2px rgba(255,140,66,0.55),
+                0 0 18px 5px rgba(255,140,66,0.22);
+            }
+            50% {
+              box-shadow:
+                0 0 0 9999px rgba(15,15,15,0.98),
+                0 0 0 3px rgba(255,140,66,0.95),
+                0 0 32px 12px rgba(255,140,66,0.5);
+            }
+          }
+        `}</style>
+      )}
+
       {/* Dim overlay — spotlight cutout for small targets, full dim for large ones */}
       {rect && !isTooLarge ? (
         <div style={{
@@ -242,6 +266,9 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
           boxShadow: `0 0 0 9999px ${OVERLAY}`,
           zIndex: 99001,
           pointerEvents: 'none',
+          ...(isWarmupStep && {
+            animation: 'wkout-warmup-glow 1.8s ease-in-out infinite',
+          }),
         }} />
       ) : (
         <div style={{ position: 'fixed', inset: 0, background: OVERLAY, zIndex: 99001, pointerEvents: 'none' }} />
