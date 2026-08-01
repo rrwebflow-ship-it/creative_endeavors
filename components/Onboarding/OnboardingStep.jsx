@@ -202,10 +202,29 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
     setArrow({ curve, head });
   }, [rect, textAbove, isTooLarge]);
 
-  // Text block floats in the available space, horizontally centred
-  const textPos = textAbove
-    ? { top: HEADER_H + 16 }
-    : { bottom: BAR_H + 16 };
+  // Position text a fixed TARGET_ARROW distance from the spotlight element so
+  // the arrow is always roughly the same length regardless of where the element
+  // sits on screen. Clamped so text never overlaps the lime header or bottom bar.
+  const TARGET_ARROW = 150;  // desired rendered arrow length in px
+  const ARROW_PAD    = 14;   // gap between text edge and arrow tip
+  const EST_TEXT_H   = 130;  // rough text block height (heading + body)
+
+  let textTopPx;
+  if (isTooLarge) {
+    // Large element: anchor text to bottom of dim area
+    textTopPx = winH - BAR_H - EST_TEXT_H - 16;
+  } else if (textAbove) {
+    // Text above spotlight — step back TARGET_ARROW from element top
+    const ideal = rect.top - ARROW_PAD - TARGET_ARROW - ARROW_PAD - EST_TEXT_H;
+    textTopPx = Math.max(HEADER_H + 16, ideal);
+  } else {
+    // Text below spotlight — step forward TARGET_ARROW from element bottom
+    const ideal  = rect.bottom + ARROW_PAD + TARGET_ARROW + ARROW_PAD;
+    const maxTop = winH - BAR_H - EST_TEXT_H - 16;
+    textTopPx = Math.min(ideal, maxTop);
+  }
+
+  const textPos = { top: textTopPx };
 
   const pad = 8;
 
