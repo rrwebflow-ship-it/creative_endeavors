@@ -186,7 +186,7 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
       const x1 = tCX;
       const y1 = tb.bottom + 14;
       const x2 = cb ? cb.left + cb.width / 2 : tCX;
-      const y2 = cb ? cb.top - 10 : winH - BAR_H - 60;
+      const y2 = cb ? cb.top - 20 : winH - BAR_H - 80;
       const H  = HEAD_SIZE;
       const head = `M ${x2 - H} ${y2 - H * 1.1} L ${x2} ${y2} L ${x2 + H} ${y2 - H * 1.1}`;
       setArrow({ curve: `M ${x1} ${y1} L ${x2} ${y2}`, head });
