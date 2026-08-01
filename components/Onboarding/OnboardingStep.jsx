@@ -267,7 +267,7 @@ function SpotlightAnnotation({ rect, stepConfig, stepIndex, totalSteps, onNext, 
           zIndex: 99001,
           pointerEvents: 'none',
           ...(isWarmupStep && {
-            animation: 'wkout-warmup-glow 1.8s ease-in-out infinite',
+            animation: 'wkout-warmup-glow 1.8s ease-in-out 3',
           }),
         }} />
       ) : (
