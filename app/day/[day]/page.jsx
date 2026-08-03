@@ -3,33 +3,39 @@
 import { useState, useEffect } from 'react';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { workouts } from '@/lib/workouts';
+import { workouts as defaultWorkouts } from '@/lib/workouts';
 import { getPlan } from '@/lib/storage';
 import { getWarmupForDay } from '@/lib/warmupStorage';
 import DayHeader from '@/components/DayHeader';
 import WorkoutTracker from '@/components/WorkoutTracker';
+import RestDay from '@/components/RestDay';
 import { use } from 'react';
 
 export default function DayPage({ params }) {
   const { day } = use(params);
   const dayNum = parseInt(day, 10);
 
-  const [workout, setWorkout] = useState(() => workouts.find(w => w.day === dayNum));
+  const [plan, setPlan] = useState(null);
   const [warmupCount, setWarmupCount] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const plan = getPlan();
-    const saved = plan.find(w => w.day === dayNum);
-    if (saved) setWorkout(saved);
+    setPlan(getPlan());
     const warmup = getWarmupForDay(dayNum);
     setWarmupCount(warmup.items?.length || 0);
     setMounted(true);
   }, [dayNum]);
 
+  // Derived fresh from `plan` + `dayNum` on every render — never holds onto
+  // a previous day's exercises when navigating between days.
+  const activePlan = plan || defaultWorkouts;
+  const workout = activePlan.find(w => w.day === dayNum);
+
   if (!workout) return notFound();
 
   const isRestDay = workout.exercises.length === 0;
+  const nextDayNumber = (dayNum % 7) + 1;
+  const nextWorkout = activePlan.find(w => w.day === nextDayNumber);
 
   return (
     <div className="min-h-screen bg-[#0F0F0F]">
@@ -65,14 +71,7 @@ export default function DayPage({ params }) {
 
         <div className="mt-6">
           {isRestDay ? (
-            <div className="py-8">
-              <h2 className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] leading-none" style={{ fontSize: 'clamp(4rem, 20vw, 6rem)' }}>
-                REST
-              </h2>
-              <p className="font-[family-name:var(--font-body)] text-[#888780] mt-3" style={{ fontSize: 'clamp(0.9375rem, 3.8vw, 1rem)' }}>
-                Recovery day
-              </p>
-            </div>
+            mounted && nextWorkout && <RestDay tomorrowWorkout={nextWorkout} cycleDay={dayNum} />
           ) : (
             mounted && <WorkoutTracker exercises={workout.exercises} dayNumber={dayNum} warmupCount={warmupCount} />
           )}

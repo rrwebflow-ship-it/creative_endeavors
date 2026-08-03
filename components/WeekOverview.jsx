@@ -2,16 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { workouts } from '@/lib/workouts';
 import { getCycleDay } from '@/lib/getWorkout';
-import { resetPlan, resetCycle } from '@/lib/storage';
+import { getPlan, resetPlan, resetCycle } from '@/lib/storage';
 
 export default function WeekOverview() {
   const [mounted, setMounted] = useState(false);
+  const [workouts, setWorkouts] = useState([]);
   const [currentDay, setCurrentDay] = useState(1);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   useEffect(() => {
+    setWorkouts(getPlan());
     setCurrentDay(getCycleDay());
     setMounted(true);
   }, []);
@@ -19,6 +20,8 @@ export default function WeekOverview() {
   function handleReset() {
     resetPlan();
     resetCycle();
+    setWorkouts(getPlan());
+    setCurrentDay(getCycleDay());
     setShowResetConfirm(false);
   }
 

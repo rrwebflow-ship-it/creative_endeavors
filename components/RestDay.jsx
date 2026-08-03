@@ -1,5 +1,7 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function RestDay({ tomorrowWorkout, cycleDay }) {
   function resetCycle() {
     if (window.confirm('Reset cycle to Day 1 from today?')) {
@@ -19,11 +21,11 @@ export default function RestDay({ tomorrowWorkout, cycleDay }) {
 
       <hr className="border-[#2A2A2A] my-8" />
 
-      <div>
+      <Link href={`/day/${tomorrowDay}`} className="block group">
         <p className="font-[family-name:var(--font-body)] text-[#888780] text-xs tracking-widest uppercase mb-3">
           TOMORROW — DAY {tomorrowDay}
         </p>
-        <p className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] text-3xl leading-tight">
+        <p className="font-[family-name:var(--font-display)] font-bold uppercase text-[#F0EDE6] text-3xl leading-tight group-hover:text-[#D1E231] transition-colors">
           {tomorrowWorkout.name}
         </p>
         <p className="font-[family-name:var(--font-body)] text-[#888780] text-sm mt-1">
@@ -34,7 +36,10 @@ export default function RestDay({ tomorrowWorkout, cycleDay }) {
             {tomorrowWorkout.exercises.length} EXERCISES
           </p>
         )}
-      </div>
+        <p className="font-[family-name:var(--font-body)] text-[#D1E231] text-xs tracking-widest uppercase mt-4">
+          View Day {tomorrowDay} →
+        </p>
+      </Link>
 
       <div className="mt-10">
         <button
